@@ -1,24 +1,14 @@
-#!/usr/bin/python
+import http.server
+import socketserver
+from http import HTTPStatus
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
 
-PORT_NUMBER = 8080
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(HTTPStatus.OK)
+        self.end_headers()
+        self.wfile.write(b'Hello world')
 
-class MyHandler(BaseHTTPRequestHandler):
 
-	def do_GET(self):
-		self.send_response(200)
-		self.send_header('Content-type','text/html')
-		self.end_headers()
-		# Send the html message
-		self.wfile.write("Hello World !")
-		return
-
-try:
-  server = HTTPServer(('', PORT_NUMBER), MyHandler)
-  print('Started app httpserver on port', PORT_NUMBER)
-  server.serve_forever()
-
-except KeyboardInterrupt:
-  server.server_close()
-  print('Stopping server')
+httpd = socketserver.TCPServer(('', 8080), Handler)
+httpd.serve_forever()
