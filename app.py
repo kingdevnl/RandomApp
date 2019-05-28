@@ -16,7 +16,7 @@ class MyHandler(BaseHTTPRequestHandler):
 
 try:
   server = HTTPServer(('', PORT_NUMBER), MyHandler)
-  print('Started httpserver on port', PORT_NUMBER)
+  print('Started app httpserver on port', PORT_NUMBER)
   server.serve_forever()
 
 except KeyboardInterrupt:
